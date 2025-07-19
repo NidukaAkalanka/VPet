@@ -22,13 +22,25 @@
     </Design.DataContext>
 
     <Grid Name="MainGrid" Width="250" Height="250" Background="Transparent">
+        <!-- Context menu for interactions -->
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Feed Pet" Name="FeedMenuItem" Click="FeedMenuItem_Click" />
+                <MenuItem Header="Give Water" Name="WaterMenuItem" Click="WaterMenuItem_Click" />
+                <MenuItem Header="Pet" Name="PetMenuItem" Click="PetMenuItem_Click" />
+                <Separator />
+                <MenuItem Header="Exit" Name="ExitMenuItem" Click="ExitMenuItem_Click" />
+            </ContextMenu>
+        </Grid.ContextMenu>
+        
         <!-- This will host the pet display -->
         <Border Name="PetDisplayBorder" Background="Transparent">
             <TextBlock Text="VPet - Linux Edition" 
                       HorizontalAlignment="Center" 
                       VerticalAlignment="Center"
                       FontSize="16"
-                      Foreground="White"/>
+                      Foreground="White"
+                      TextAlignment="Center"/>
         </Border>
     </Grid>
 </Window>

@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="LinePutScript" Version="1.11.9" />
-    <PackageReference Include="SkiaSharp" Version="3.116.1" />
+    <PackageReference Include="SkiaSharp" Version="2.88.8" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
   </ItemGroup>
 </Project>

@@ -136,4 +136,25 @@ public partial class MainWindow : Window
         _gameTimer?.Stop();
         base.OnClosed(e);
     }
+
+    // Context menu event handlers
+    private void FeedMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        _petEngine.Feed();
+    }
+
+    private void WaterMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        _petEngine.GiveWater();
+    }
+
+    private void PetMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        _petEngine.OnPetted();
+    }
+
+    private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
 }
