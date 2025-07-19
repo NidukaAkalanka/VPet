@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>VPet_Simulator.Avalonia</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <UseAppHost>true</UseAppHost>
+    <ApplicationIcon>vpeticon.ico</ApplicationIcon>
+    <AssemblyTitle>虚拟桌宠模拟器 (Linux)</AssemblyTitle>
+    <Description>VPET跨平台实现 - 基于Avalonia</Description>
+    <Company>LB Game</Company>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Product>VPet-Simulator.Avalonia</Product>
+    <Copyright>Copyright © exLB.org 2022</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.13" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.13" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.13" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.13" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.13" />
+    <PackageReference Include="Avalonia.Skia" Version="11.0.13" />
+    <PackageReference Include="LinePutScript" Version="1.11.9" />
+    <PackageReference Include="SkiaSharp" Version="3.116.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VPet-Simulator.Core.CrossPlatform\VPet-Simulator.Core.CrossPlatform.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="vpeticon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
