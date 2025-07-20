@@ -42,22 +42,34 @@ namespace VPet_Simulator.Core.CrossPlatform.Game
             // Try to load real animations first
             try
             {
+                Console.WriteLine("Loading animations from Assets/Animations...");
                 var animationLoader = new AnimationLoader("Assets/Animations");
                 var loadedAnimations = animationLoader.LoadAnimations();
                 
                 if (loadedAnimations.Count > 0)
                 {
+                    Console.WriteLine($"Successfully loaded {loadedAnimations.Count} animation sets:");
+                    foreach (var anim in loadedAnimations)
+                    {
+                        Console.WriteLine($"  {anim.Key}: {anim.Value.FrameCount} frames");
+                    }
                     _animations = loadedAnimations;
                     return;
+                }
+                else
+                {
+                    Console.WriteLine("No animations were loaded, falling back to placeholders");
                 }
             }
             catch (Exception ex)
             {
                 // Log error but continue with fallback
+                Console.WriteLine($"Failed to load animations: {ex.Message}");
                 System.Diagnostics.Debug.WriteLine($"Failed to load animations: {ex.Message}");
             }
 
             // Fallback to placeholder animations if loading fails
+            Console.WriteLine("Using fallback placeholder animations");
             var idleAnim = new AnimationSequence(AnimationType.Idle, "idle");
             idleAnim.AddFrame("placeholder.png", 1000);
             _animations[AnimationType.Idle] = idleAnim;

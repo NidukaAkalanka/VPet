@@ -92,22 +92,28 @@ public partial class MainWindow : Window
             if (imagePath == "placeholder.png")
             {
                 petImage.Source = null;
+                Console.WriteLine("Displaying placeholder (no image)");
                 return;
             }
+
+            Console.WriteLine($"Loading animation frame: {imagePath}");
 
             // Construct the full path to the animation file
             var fullPath = Path.Combine(AppContext.BaseDirectory, imagePath);
             
             if (File.Exists(fullPath))
             {
+                Console.WriteLine($"Found animation file at: {fullPath}");
                 using (var stream = File.OpenRead(fullPath))
                 {
                     var bitmap = new Bitmap(stream);
                     petImage.Source = bitmap;
+                    Console.WriteLine($"Successfully loaded animation frame: {imagePath}");
                 }
             }
             else
             {
+                Console.WriteLine($"Animation file not found at: {fullPath}, trying as embedded resource");
                 // Try as an embedded resource
                 var uri = new Uri($"avares://VPet-Simulator.Avalonia/{imagePath}");
                 var stream = AssetLoader.Open(uri);
@@ -115,11 +121,17 @@ public partial class MainWindow : Window
                 {
                     var bitmap = new Bitmap(stream);
                     petImage.Source = bitmap;
+                    Console.WriteLine($"Successfully loaded animation frame from embedded resource: {imagePath}");
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to find animation frame as embedded resource: {imagePath}");
                 }
             }
         }
         catch (Exception ex)
         {
+            Console.WriteLine($"Failed to load animation frame {imagePath}: {ex.Message}");
             System.Diagnostics.Debug.WriteLine($"Failed to load animation frame {imagePath}: {ex.Message}");
         }
     }
