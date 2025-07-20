@@ -8,6 +8,8 @@ using VPet_Simulator.Core.CrossPlatform.Models;
 using VPet_Simulator.Core.CrossPlatform.Animation;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 
 namespace VPet_Simulator.Avalonia.Views;
 
@@ -54,12 +56,13 @@ public partial class MainWindow : Window
     private void OnPetDataChanged(PetData petData)
     {
         // Update UI based on pet data changes
-        // For now, just update the debug text
-        if (PetDisplayBorder.Child is TextBlock textBlock)
+        // Update the debug text overlay
+        var debugText = this.FindControl<TextBlock>("DebugText");
+        if (debugText != null)
         {
             Dispatcher.UIThread.InvokeAsync(() =>
             {
-                textBlock.Text = $"VPet - Linux Edition\n" +
+                debugText.Text = $"VPet - Linux Edition\n" +
                                $"State: {petData.State}\n" +
                                $"Animation: {petData.CurrentAnimation}\n" +
                                $"Happiness: {petData.Happiness:F0}\n" +
@@ -71,31 +74,61 @@ public partial class MainWindow : Window
 
     private void OnAnimationFrameChanged(IAnimationFrame frame)
     {
-        // TODO: Load and display the actual animation frame
-        // For now, we'll just show a placeholder
+        // Load and display the actual animation frame
         Dispatcher.UIThread.InvokeAsync(() =>
         {
-            // In a real implementation, you would load frame.ImagePath here
-            UpdatePetDisplay(frame.ImagePath);
+            LoadAnimationFrame(frame.ImagePath);
         });
+    }
+
+    private void LoadAnimationFrame(string imagePath)
+    {
+        try
+        {
+            var petImage = this.FindControl<Image>("PetImage");
+            if (petImage == null) return;
+
+            // Skip placeholder frames
+            if (imagePath == "placeholder.png")
+            {
+                petImage.Source = null;
+                return;
+            }
+
+            // Construct the full path to the animation file
+            var fullPath = Path.Combine(AppContext.BaseDirectory, imagePath);
+            
+            if (File.Exists(fullPath))
+            {
+                using (var stream = File.OpenRead(fullPath))
+                {
+                    var bitmap = new Bitmap(stream);
+                    petImage.Source = bitmap;
+                }
+            }
+            else
+            {
+                // Try as an embedded resource
+                var uri = new Uri($"avares://VPet-Simulator.Avalonia/{imagePath}");
+                var stream = AssetLoader.Open(uri);
+                if (stream != null)
+                {
+                    var bitmap = new Bitmap(stream);
+                    petImage.Source = bitmap;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to load animation frame {imagePath}: {ex.Message}");
+        }
     }
 
     private void UpdatePetDisplay(string imagePath)
     {
-        // Placeholder implementation - in real code, load the image
-        // For now, change background color based on animation state
-        var brush = _petEngine.Pet.State switch
-        {
-            PetState.Happy => Brushes.LightGreen,
-            PetState.Unhappy => Brushes.LightCoral,
-            PetState.Sleep => Brushes.LightBlue,
-            _ => Brushes.LightGray
-        };
-
-        if (PetDisplayBorder.Child is TextBlock textBlock)
-        {
-            textBlock.Background = brush;
-        }
+        // This method is now handled by LoadAnimationFrame
+        // Keep it for backward compatibility but just call LoadAnimationFrame
+        LoadAnimationFrame(imagePath);
     }
 
     private void OnPointerPressed(object sender, PointerPressedEventArgs e)

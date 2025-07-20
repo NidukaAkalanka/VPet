@@ -35,12 +35,29 @@
         
         <!-- This will host the pet display -->
         <Border Name="PetDisplayBorder" Background="Transparent">
-            <TextBlock Text="VPet - Linux Edition" 
-                      HorizontalAlignment="Center" 
-                      VerticalAlignment="Center"
-                      FontSize="16"
-                      Foreground="White"
-                      TextAlignment="Center"/>
+            <Grid>
+                <!-- Pet Animation Image -->
+                <Image Name="PetImage" 
+                       Width="250" 
+                       Height="250"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       IsVisible="True"/>
+                
+                <!-- Debug Info Text (overlay) -->
+                <TextBlock Name="DebugText"
+                          Text="VPet - Linux Edition" 
+                          HorizontalAlignment="Left" 
+                          VerticalAlignment="Top"
+                          FontSize="12"
+                          Foreground="White"
+                          Background="Black"
+                          Margin="5"
+                          Padding="5"
+                          TextAlignment="Left"
+                          Opacity="0.8"/>
+            </Grid>
         </Border>
     </Grid>
 </Window>
