@@ -39,20 +39,35 @@ namespace VPet_Simulator.Core.CrossPlatform.Game
 
         private void LoadDefaultAnimations()
         {
-            // Create a simple idle animation (placeholder)
+            // Try to load real animations first
+            try
+            {
+                var animationLoader = new AnimationLoader("Assets/Animations");
+                var loadedAnimations = animationLoader.LoadAnimations();
+                
+                if (loadedAnimations.Count > 0)
+                {
+                    _animations = loadedAnimations;
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error but continue with fallback
+                System.Diagnostics.Debug.WriteLine($"Failed to load animations: {ex.Message}");
+            }
+
+            // Fallback to placeholder animations if loading fails
             var idleAnim = new AnimationSequence(AnimationType.Idle, "idle");
-            idleAnim.AddFrame("idle_1.png", 1000);
-            idleAnim.AddFrame("idle_2.png", 1000);
+            idleAnim.AddFrame("placeholder.png", 1000);
             _animations[AnimationType.Idle] = idleAnim;
 
             var happyAnim = new AnimationSequence(AnimationType.Happy, "happy");
-            happyAnim.AddFrame("happy_1.png", 500);
-            happyAnim.AddFrame("happy_2.png", 500);
+            happyAnim.AddFrame("placeholder.png", 500);
             _animations[AnimationType.Happy] = happyAnim;
 
             var sadAnim = new AnimationSequence(AnimationType.Sad, "sad");
-            sadAnim.AddFrame("sad_1.png", 800);
-            sadAnim.AddFrame("sad_2.png", 800);
+            sadAnim.AddFrame("placeholder.png", 800);
             _animations[AnimationType.Sad] = sadAnim;
         }
 

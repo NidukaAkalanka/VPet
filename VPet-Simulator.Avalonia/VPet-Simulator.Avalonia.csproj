@@ -20,6 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Assets\Animations\**\*.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.13" />
     <PackageReference Include="Avalonia.Desktop" Version="11.0.13" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.13" />
